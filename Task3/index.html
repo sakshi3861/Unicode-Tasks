@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desi News - Live Reports</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <header class="bg-blue-700 text-white py-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold">📰 Desi News</h1>
+      <select id="languageSelect" class="text-black px-3 py-1 rounded">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="fr">French</option>
+        <option value="es">Spanish</option>
+      </select>
+    </div>
+  </header>
+  <main class="container mx-auto px-4 py-6 grow">
+    <div id="newsContainer" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div class="flex justify-center mt-8 space-x-4">
+      <button id="prevPage" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Previous</button>
+      <button id="nextPage" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Next</button>
+    </div>
+  </main>
+  <footer class="bg-blue-700 text-white text-center py-4">
+    © 2025 Desi News
+  </footer>
+  const API_KEY = "YOUR_API_KEY"; // Replace with your NewsData.io key
+    const pageSize = 9;
+    let currentPage = 1;
+    let selectedLang = 'en';
+
+    const newsContainer = document.getElementById('newsContainer');
+    const languageSelect = document.getElementById('languageSelect');
+
+    async function fetchNews(page = 1, lang = 'en') {
+      try {
+        newsContainer.innerHTML = "<p class='col-span-full text-center'>Loading...</p>";
+        const response = await axios.get('https://newsdata.io/api/1/news', {
+          params: {
+            apikey: API_KEY,
+            language: lang,
+            page: page,
+            country: 'in', // India
+          },
+        });
+
+        const articles = response.data.results;
+        displayNews(articles);
+      } catch (error) {
+        console.error(error);
+        newsContainer.innerHTML = "<p class='col-span-full text-red-600 text-center'>Failed to load news.</p>";
+      }
+    }
+
+    function displayNews(articles) {
+      newsContainer.innerHTML = '';
+      if (!articles || articles.length === 0) {
+        newsContainer.innerHTML = "<p class='col-span-full text-center text-gray-500'>No news available.</p>";
+        return;
+      }
+
+      articles.forEach(article => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300';
+
+        const image = article.image_url || 'https://via.placeholder.com/400x200?text=No+Image';
+        const pubDate = new Date(article.pubDate).toLocaleString();
+
+        card.innerHTML = `
+          <img src="${image}" alt="News Image" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <h2 class="text-lg font-semibold mb-2">${article.title}</h2>
+            <p class="text-gray-700 text-sm mb-2">${article.description || 'No description available.'}</p>
+            <p class="text-gray-500 text-xs">Source: ${article.source_id || 'Unknown'} | ${pubDate}</p>
+            <a href="${article.link}" target="_blank" class="inline-block mt-3 text-blue-600 hover:underline">Read More →</a>
+          </div>
+        `;
+
+        newsContainer.appendChild(card);
+      });
+    }
+
+    document.getElementById('prevPage').addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        fetchNews(currentPage, selectedLang);
+      }
+    });
+
+    document.getElementById('nextPage').addEventListener('click', () => {
+      currentPage++;
+      fetchNews(currentPage, selectedLang);
+    });
+
+    languageSelect.addEventListener('change', (e) => {
+      selectedLang = e.target.value;
+      currentPage = 1;
+      fetchNews(currentPage, selectedLang);
+    });
+
+    // Initial Load
+    fetchNews();
+  </script>
+</body>
+</html>
