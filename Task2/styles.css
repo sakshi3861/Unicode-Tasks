@@ -1,56 +1,22 @@
-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: Arial,sans-serif;
-    background-color: darkorchid;
-}
-.game-container{
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #fff;
-    height: 60vmin;
-    width: 60vmin;
-}
-.game-title{
-    height: 12vmin;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: darkmagenta;
-    font-size: 1.25rem;
-}
-.game-content{
-    height: 8vmin;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-}
-.game-button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    padding: 5px 10px;
-}
-.game-previousguesses{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0.5px;
-    padding: 0.5px 0.5px;
-    background-color: bisque;
-    width: 50%;
-}
-.stats{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    color: #374151;
-}
+@keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-30px,0); }
+            70% { transform: translate3d(0,-15px,0); }
+            90% { transform: translate3d(0,-4px,0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .bounce { animation: bounce 0.6s; }
+        .shake { animation: shake 0.5s; }
+        .pulse { animation: pulse 0.3s; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
