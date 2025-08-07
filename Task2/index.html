@@ -78,35 +78,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Guess the Number</title>
-</head>
-<body>
-  <h1>Guess a number between 1 and 100</h1>
-  <input id="guessInput" type="number" placeholder="Your guess">
-  <button id="guessBtn">Guess</button>
-  <p id="feedback"></p>
-
-  <script>
-    const secret = Math.floor(Math.random() * 100) + 1;
-    let attempts = 0;
-
-    document.getElementById('guessBtn').onclick = function() {
-      const val = Number(document.getElementById('guessInput').value);
-      attempts++;
-      if (val === secret) {
-        feedback.textContent = `🎉 Correct! You guessed in ${attempts} tries.`;
-        this.disabled = true;
-      } else if (val < secret) {
-        feedback.textContent = `Too low! Try again.`;
-      } else if (val > secret) {
-        feedback.textContent = `Too high! Try again.`;
-      }
-    };
-  </script>
-</body>
-</html>
-
