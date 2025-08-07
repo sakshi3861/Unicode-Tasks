@@ -1,5 +1,6 @@
 let randomNumber;
     let attempts;
+    let maxAttempts = 7;
     let previousGuesses = [];
 
     const guessField = document.getElementById('guessField');
@@ -27,6 +28,7 @@ let randomNumber;
 
     submitBtn.addEventListener('click', () => {
       const guess = Number(guessField.value);
+
       if (!guess || guess < 1 || guess > 100) {
         feedback.textContent = 'Please enter a valid number between 1 and 100.';
         feedback.style.color = 'orange';
@@ -42,6 +44,10 @@ let randomNumber;
       if (guess === randomNumber) {
         feedback.textContent = `Correct! You got it in ${attempts} attempt${attempts > 1 ? 's' : ''}.`;
         feedback.style.color = 'green';
+        endGame();
+      } else if (attempts >= maxAttempts) {
+        feedback.textContent = `Game Over! You've used all ${maxAttempts} attempts. The number was ${randomNumber}.`;
+        feedback.style.color = 'red';
         endGame();
       } else if (guess < randomNumber) {
         feedback.textContent = 'Too low! Try again.';
