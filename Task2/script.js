@@ -58,7 +58,6 @@ let randomNumber;
       }
 
       guessField.value = '';
-      guessField.focus();
     });
 
     function endGame() {
